@@ -1,19 +1,25 @@
-import mysql from "mysql2/promise"
-import dotenv from "dotenv"
-dotenv.config()
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+dotenv.config();
 
-let Db_Connection
-try {
-    Db_Connection = await mysql.createConnection({
-        host: "localhost",
-        user: process.env.USER,
-        password: process.env.DBPASS,
-        database: "splitwise_app",
-    })
-    console.log("DB connected")
-} catch (err) {
-    console.log("Err in DB Connection")
-}
+const pool = mysql.createPool({
+    host: "127.0.0.1",
+    port: 8080,
+    user: process.env.USER,
+    password: process.env.DBPASS,
+    database: "splitwise_app",
+    waitForConnections: true,
+    connectionLimit: 10,
+});
 
+(async () => {
+    try {
+        await pool.getConnection();
+        console.log(" Database connected successfully!");
+    } catch (err) {
+        console.error(" Database connection failed:", err.message);
+        process.exit(1);
+    }
+})();
 
-export default Db_Connection
+export default pool;

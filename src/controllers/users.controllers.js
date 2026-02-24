@@ -1,9 +1,12 @@
 import bcrypt from "bcrypt"
-import validator from "express-validator"
+import validator from "validator"
 
-import { userRegister } from "../services/users.service"
+import { userRegister } from "../services/users.service.js"
 const userRegisterController = async (req, res) => {
-    const { email, password, deafault_currency } = req.body
+
+    console.log("Hitting controller layer")
+    const { email, password, default_currency } = req.body
+    console.log(email, password, default_currency)
     try {
 
         if (!email || !password) {
@@ -16,15 +19,14 @@ const userRegisterController = async (req, res) => {
         }
         const hash = await bcrypt.hash(password, 10);
 
-        const user = await userRegister.createUser({
+        const user = await userRegister({
             email,
             password: hash,
-            deafault_currency
+            default_currency
         })
-
-        return res.status(200).json({ message: "User saved", user: user })
+        return res.status(201).json({ message: "User saved", user: user })
     } catch (err) {
-        return res.status(400).json({ message: "User not  saved", err })
+        return res.status(400).json({ message: "User not  saved", err: err.message })
 
     }
 }

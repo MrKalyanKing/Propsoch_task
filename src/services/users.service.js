@@ -1,10 +1,10 @@
-
 import db from "../db/db.js"
 
-const userRegister = async (email, password, currency = "INR") => {
+const userRegister = async ({ email, password, default_currency = "INR" }) => {
 
+    console.log("hitting service layer")
     const [existingUser] = await db.query(
-        "select id from users WHERE email=? "
+        "select id from users WHERE email=? ",
         [email]
     )
 
@@ -12,12 +12,12 @@ const userRegister = async (email, password, currency = "INR") => {
         throw new Error("Email already exists");
     }
 
-    const [result] = db.query(
-        "insert into (email,password,currency) users values (? ? ?) "
-        [email, password, currency]
+    const [result] = await db.query(
+        "insert into users (email, password, default_currency) values (?, ?, ?) ",
+        [email, password, default_currency]
     )
 
-    return { id: result.id, email, currency }
+    return result;
 
 }
 

@@ -5,3 +5,5 @@ const errHandler = (err, req, res, next) => {
         message: "Internal server err", err
     })
 }
+
+export default errHandler
