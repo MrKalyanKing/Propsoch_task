@@ -4,7 +4,7 @@ import validator from "validator"
 import { userRegister } from "../services/users.service.js"
 const userRegisterController = async (req, res) => {
 
-    console.log("Hitting controller layer")
+
     const { email, password, default_currency } = req.body
     console.log(email, password, default_currency)
     try {

@@ -2,7 +2,7 @@ import db from "../db/db.js"
 
 const userRegister = async ({ email, password, default_currency = "INR" }) => {
 
-    console.log("hitting service layer")
+
     const [existingUser] = await db.query(
         "select id from users WHERE email=? ",
         [email]
