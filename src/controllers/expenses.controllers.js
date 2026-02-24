@@ -1,4 +1,4 @@
-import createExpense from "../services/expenses.service"
+import createExpense from "../services/expenses.service.js"
 
 
 const expensesController = async (req, res) => {
@@ -32,7 +32,7 @@ const expensesController = async (req, res) => {
 
         }
 
-        const expense = createExpense({
+        const expense = await createExpense({
             name,
             amount: Number(amount),
             members,
@@ -42,11 +42,13 @@ const expensesController = async (req, res) => {
             expense_date
         })
 
-        return res.status(200).json({ message: "The expenses are created" })
+        console.log(expense)
+
+        return res.status(200).json({ message: "The expenses are created", expense: expense })
 
 
     } catch (err) {
-        return res.status(400).json({ message: "Internal Error", err: err })
+        return res.status(400).json({ message: "Validation or Internal Error", err: err.message })
     }
 }
 

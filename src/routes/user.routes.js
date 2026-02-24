@@ -1,7 +1,6 @@
-import Router from "router"
-import app from "../index.js";
-import errHandler from "../middleware/error.middleware.js";
+import { Router } from "express";
 import { userRegisterController } from "../controllers/users.controllers.js";
+import errHandler from "../middleware/error.middleware.js";
 
 const router = Router();
 
