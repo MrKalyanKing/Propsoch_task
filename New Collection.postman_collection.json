@@ -1,0 +1,200 @@
+{
+  "info": {
+    "_postman_id": "43d4251f-0204-4cba-b580-d56c44a674a7",
+    "name": "New Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43991571",
+    "_collection_link": "https://go.postman.co/collection/43991571-43d4251f-0204-4cba-b580-d56c44a674a7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "userRegister",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\":\"Sai\",\r\n    \"email\":\"sai@gmail.com\",\r\n    \"password\":\"12345\",\r\n    \"default_currency\":\"INR\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/user/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Expenses",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"expense_name\": \"Lunch\",\r\n  \"amount\": 1000,\r\n  \"currency\": \"INR\",\r\n  \"members\": [4,5],\r\n  \"paidBy\": 4,\r\n  \"createdBy\": 1,\r\n  \"expense_date\": \"2026-02-28\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/expenses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "expenses"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetBalance",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Dinner\",\r\n  \"amount\": 900,\r\n  \"currency\": \"INR\",\r\n  \"members\": [1,2,3,4],\r\n  \"paidBy\": 1,\r\n  \"createdBy\": 1,\r\n  \"expense_date\": \"2026-02-28\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/balance/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "balance",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "userProfile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/user/profile/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "profile",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateProfile",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\":\"sai2@gmail.com\",\r\n    \"default_currency\":\"USD\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/user/update/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "update",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getExpenses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/expenses/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "expenses",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateExpense",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"expense_name\": \"Movie\",\r\n  \"amount\": 1000,\r\n  \"currency\": \"INR\",\r\n  \"members\": [4,5],\r\n  \"paidBy\": 4,\r\n  \"expense_date\": \"2026-02-28\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/expenses/update/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "expenses",
+            "update",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

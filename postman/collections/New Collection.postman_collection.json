@@ -1,0 +1,198 @@
+{
+  "info": {
+    "_postman_id": "3c6e3860-63c0-465c-b1f0-b92755dc2249",
+    "name": "New Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "New Folder",
+      "item": [],
+      "id": "6d749c14-dc60-4f40-aa12-68298d0af8a2"
+    },
+    {
+      "name": "UserRegsiter",
+      "id": "09d8caef-c887-41ee-85dd-491229432edf",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\":\"Saikumar\",\r\n    \"email\":\"Sss@gmail.com\",\r\n    \"password\":\"12345\",\r\n    \"default_currency\":\"INR\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/user/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UserUpdate",
+      "id": "524c421c-4e13-479a-bf04-1d9e19be4c12",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\":\"sai22@gmail.com\",\r\n    \"default_currency\":\"USD\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/user/update/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "update",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getUserProfile",
+      "id": "e5093deb-c3d8-454d-a209-0603df3a2fbb",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/user/profile/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "user",
+            "profile",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Expense",
+      "id": "ec4e9355-70c8-46cc-86c5-364a3b57d800",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/expenses/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "expenses",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateExpense",
+      "id": "cb2081f6-5bdc-4af4-ad72-d65a5ee55734",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"expense_name\": \"Movie\",\r\n  \"amount\": 1001,\r\n  \"currency\": \"INR\",\r\n  \"members\": [4,5],\r\n  \"paidBy\": 4,\r\n  \"expense_date\": \"2026-02-28\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/expenses/update/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "expenses",
+            "update",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetBalance",
+      "id": "1d2a87a1-73bb-4dd5-a5a9-d3838a20a05f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Dinner\",\r\n  \"amount\": 900,\r\n  \"currency\": \"INR\",\r\n  \"members\": [1,2,3,4],\r\n  \"paidBy\": 1,\r\n  \"createdBy\": 1,\r\n  \"expense_date\": \"2026-02-28\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/balance/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "balance",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
