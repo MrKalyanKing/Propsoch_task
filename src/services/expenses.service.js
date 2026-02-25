@@ -50,16 +50,22 @@ const createExpense = async (data) => {
             );
         }
 
+        //commited
+
         await connection.commit();
         return { expenseId };
 
     } catch (err) {
+
+        //if anything goes wrong rollback
+
         if (connection) await connection.rollback();
         console.error("Error in createExpense service:", err.message);
         throw err;
-    } finally {
-        if (connection) connection.release();
     }
+    // finally {
+    //     if (connection) connection.release();
+    // }
 };
 
 export default createExpense
