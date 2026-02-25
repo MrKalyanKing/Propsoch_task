@@ -1,21 +1,24 @@
-import pool from "../db/db"
+import pool from "../db/db.js"
 
 const getUserBalance = async (userId) => {
 
+    console.log(userId)
+    const balance = {}
 
     try {
-        const [userexpense] = pool.query(
-            `select E.id as expense_id
-        E.paid_by,
-        Ep.user_id,
-        Ep.share_amount
-        from expense_participants Ep
-        join expenses E on ep.expense_id = e.id
-        where ep.user_id= ? `,
+        const [userexpense] = await pool.query(
+            `select 
+                E.id as expense_id,
+                E.paid_by,
+                Ep.user_id,
+                Ep.share_amount
+            from expense_participants Ep
+            join expenses E on Ep.expense_id = E.id
+            where Ep.user_id= ? `,
             [userId]
         )
 
-        const balance = {}
+
 
         for (const row of userexpense) {
             const payer = row.paid_by
@@ -36,9 +39,11 @@ const getUserBalance = async (userId) => {
             }
         }
     } catch (err) {
-        return res.status(400).json({ message: "Error in the fetching the expense", err: err })
+        throw new Error("Error while fetching the expenses balance", err.message)
     }
 
     return balance
 
 }
+
+export default getUserBalance

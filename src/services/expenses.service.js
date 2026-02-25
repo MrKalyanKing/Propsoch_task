@@ -1,7 +1,7 @@
 import pool from "../db/db.js";
 
 const createExpense = async (data) => {
-    const { name, amount, currency, members, paidBy, createdBy, expense_date } = data;
+    const { expense_name, amount, currency, members, paidBy, createdBy, expense_date } = data;
     let connection = null;
 
     try {
@@ -31,9 +31,9 @@ const createExpense = async (data) => {
 
         // Insert expense
         const [expenseRes] = await connection.query(
-            `insert into expenses (name, amount, currency, paid_by, created_by, expense_date) 
+            `insert into expenses (expense_name, amount, currency, paid_by, created_by, expense_date) 
              values (?, ?, ?, ?, ?, ?)`,
-            [name, amount, currency, paidBy, createdBy, expense_date]
+            [expense_name, amount, currency, paidBy, createdBy, expense_date]
         );
 
         const expenseId = expenseRes.insertId;

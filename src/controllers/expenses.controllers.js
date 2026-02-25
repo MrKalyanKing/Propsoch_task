@@ -1,8 +1,9 @@
+import pool from "../db/db.js"
 import createExpense from "../services/expenses.service.js"
 
 
 const expensesController = async (req, res) => {
-    const { name, amount, currency, members, paidBy, createdBy, expense_date } = req.body
+    const { expense_name, amount, currency, members, paidBy, createdBy, expense_date } = req.body
     try {
 
         if (!name || !amount || !currency || !members || !paidBy || !createdBy || !expense_date) {
@@ -33,7 +34,7 @@ const expensesController = async (req, res) => {
         }
 
         const expense = await createExpense({
-            name,
+            expense_name,
             amount: Number(amount),
             members,
             currency,
@@ -42,9 +43,11 @@ const expensesController = async (req, res) => {
             expense_date
         })
 
-        console.log(expense)
+        const [expenseRes] = await pool.query(
+            `select * from expenses`, [expense]
+        )
 
-        return res.status(200).json({ message: "The expenses are created", expense: expense })
+        return res.status(200).json({ message: "The expenses are created", expenseRes: expenseRes })
 
 
     } catch (err) {

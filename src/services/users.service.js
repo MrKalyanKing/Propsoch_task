@@ -1,6 +1,6 @@
 import db from "../db/db.js"
 
-const userRegister = async ({ email, password, default_currency = "INR" }) => {
+const userRegister = async ({ name, email, password, default_currency = "INR" }) => {
 
 
     const [existingUser] = await db.query(
@@ -13,8 +13,8 @@ const userRegister = async ({ email, password, default_currency = "INR" }) => {
     }
 
     const [result] = await db.query(
-        "insert into users (email, password, default_currency) values (?, ?, ?) ",
-        [email, password, default_currency]
+        "insert into users (name,email, password, default_currency) values (?, ?, ?) ",
+        [name, email, password, default_currency]
     )
 
     return result;
