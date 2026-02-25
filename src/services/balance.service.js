@@ -4,45 +4,70 @@ const getUserBalance = async (userId) => {
 
     console.log(userId)
     const balance = {}
+    const expenseDetails = []
 
     try {
         const [userexpense] = await pool.query(
-            `select 
-                E.id as expense_id,
+
+            ` Select 
+                E.expense_name,
                 E.paid_by,
+                payer.name AS payer_name,
                 Ep.user_id,
+                participant.name AS participant_name,
                 Ep.share_amount
-            from expense_participants Ep
-            join expenses E on Ep.expense_id = E.id
-            where Ep.user_id= ? `,
+            from  expense_participants Ep
+            join expenses E ON Ep.expense_id = E.id
+            join users payer ON E.paid_by = payer.id
+            join users participant ON Ep.user_id = participant.id
+            where Ep.expense_id IN (
+                select expense_id
+                from expense_participants
+                where user_id = ?)`,
             [userId]
         )
 
 
 
         for (const row of userexpense) {
-            const payer = row.paid_by
-            const participant = row.user_id
-            const share = row.share_amount
 
-            const amount = Number(share)
+            const payer = Number(row.paid_by);
+            const participant = Number(row.user_id);
+            const amount = Number(row.share_amount);
 
-            // if user paid , others owe to user
-
+            // If current user paid → others owe you
             if (payer === userId && participant !== userId) {
-                balance[participant] = (balance[participant] || 0) + amount
+
+                balance[row.participant_name] =
+                    (balance[row.participant_name] || 0) + amount;
+
+                expenseDetails.push({
+                    expense_name: row.expense_name,
+                    type: "you_are_owed",
+                    other_user: row.participant_name,
+                    amount
+                });
             }
 
-            //user is  participates , user owes to other
+            // If current user owes someone
             else if (participant === userId && payer !== userId) {
-                balance[payer] = (balance[payer] || 0) - amount
+
+                balance[row.payer_name] =
+                    (balance[row.payer_name] || 0) - amount;
+
+                expenseDetails.push({
+                    expense_name: row.expense_name,
+                    type: "you_owe",
+                    other_user: row.payer_name,
+                    amount
+                });
             }
         }
     } catch (err) {
         throw new Error("Error while fetching the expenses balance", err.message)
     }
 
-    return balance
+    return { balance, expenseDetails }
 
 }
 

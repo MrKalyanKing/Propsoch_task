@@ -8,6 +8,12 @@ const createExpense = async (data) => {
         connection = await pool.getConnection();
         await connection.beginTransaction();
 
+
+        if (!Array.isArray(members) || members.length === 0) {
+            throw new Error("Members list cannot be empty.");
+        }
+
+
         // Checking for existing users in members list
         const memberHolders = members.map(() => "?").join(",");
         const [users] = await connection.query(
@@ -28,6 +34,10 @@ const createExpense = async (data) => {
         if (creator.length === 0) {
             throw new Error("The user who created this expense does not exist.");
         }
+
+
+
+
 
         // Insert expense
         const [expenseRes] = await connection.query(

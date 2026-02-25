@@ -6,7 +6,7 @@ const expensesController = async (req, res) => {
     const { expense_name, amount, currency, members, paidBy, createdBy, expense_date } = req.body
     try {
 
-        if (!name || !amount || !currency || !members || !paidBy || !createdBy || !expense_date) {
+        if (!expense_name || !amount || !currency || !members || !paidBy || !createdBy || !expense_date) {
 
             return res.status(400).json({ message: "All the data fields were required" })
         }
@@ -43,11 +43,21 @@ const expensesController = async (req, res) => {
             expense_date
         })
 
-        const [expenseRes] = await pool.query(
-            `select * from expenses`, [expense]
-        )
 
-        return res.status(200).json({ message: "The expenses are created", expenseRes: expenseRes })
+
+        return res.status(201).json({
+            message: "Expense created successfully",
+            expense: {
+                id: expense,
+                expense_name,
+                amount: Number(amount),
+                currency,
+                paidBy: paidBy,
+                createdBy: createdBy,
+                expense_date,
+                members
+            }
+        });
 
 
     } catch (err) {
