@@ -78,4 +78,98 @@ const createExpense = async (data) => {
     // }
 };
 
-export default createExpense
+
+const getExpenseById = async (expenseId) => {
+    const [expense] = await pool.query(
+        `select E.*, payer.name as payer_name, creator.name as creator_name
+         from expenses E
+         join users payer on E.paid_by = payer.id
+         join users creator on E.created_by = creator.id
+         where E.id = ?`,
+        [expenseId]
+    );
+
+    if (expense.length === 0) {
+        throw new Error("Expense not found");
+    }
+
+    const [participants] = await pool.query(
+        `select Ep.*, U.name, U.email
+         from expense_participants Ep
+         join users U on Ep.user_id = U.id
+         where Ep.expense_id = ?`,
+        [expenseId]
+    );
+
+    return { ...expense[0], participants };
+};
+
+const updateExpense = async (expenseId, data) => {
+    const { expense_name, amount, currency, members, paidBy, expense_date } = data;
+    let connection = null;
+
+    try {
+        connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        // Check if expense exists
+        const [existing] = await connection.query("select id from expenses where id = ?", [expenseId]);
+        if (existing.length === 0) {
+            throw new Error("Expense not found");
+        }
+
+        // Update expense main details
+        await connection.query(
+            `update expenses set 
+                expense_name = coalesce(?, expense_name), 
+                amount = coalesce(?, amount), 
+                currency = coalesce(?, currency), 
+                paid_by = coalesce(?, paid_by), 
+                expense_date = coalesce(?, expense_date) 
+             where id = ?`,
+            [expense_name, amount, currency, paidBy, expense_date, expenseId]
+        );
+
+        //  members or amount changed, re-calculate and update participants
+        if (members || amount) {
+            // members is not provided, fetch current members to re-calculate with new amount
+            let finalMembers = members;
+            if (!finalMembers) {
+                const [currentParticipants] = await connection.query(
+                    "select user_id from expense_participants where expense_id = ?",
+                    [expenseId]
+                );
+                finalMembers = currentParticipants.map(p => p.user_id);
+            }
+
+            // Delete old participants
+            await connection.query("delete from expense_participants where expense_id = ?", [expenseId]);
+
+            // Calculate new share
+            const [currentExpense] = await connection.query("select amount from expenses where id = ?", [expenseId]);
+            const finalAmount = currentExpense[0].amount;
+            const share = (Number(finalAmount) / finalMembers.length).toFixed(2);
+
+            // Re-insert participants
+            for (let userId of finalMembers) {
+                await connection.query(
+                    `insert into expense_participants (expense_id, user_id, share_amount) 
+                     values (?, ?, ?)`,
+                    [expenseId, userId, share]
+                );
+            }
+        }
+
+        await connection.commit();
+        return { success: true };
+    } catch (err) {
+        if (connection) await connection.rollback();
+        throw err;
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
+
+
+export { createExpense, getExpenseById, updateExpense };

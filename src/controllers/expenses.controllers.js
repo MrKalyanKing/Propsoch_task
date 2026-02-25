@@ -1,5 +1,4 @@
-import pool from "../db/db.js"
-import createExpense from "../services/expenses.service.js"
+import { createExpense, getExpenseById, updateExpense } from "../services/expenses.service.js";
 
 
 const expensesController = async (req, res) => {
@@ -65,4 +64,43 @@ const expensesController = async (req, res) => {
     }
 }
 
-export { expensesController }
+const getExpenseController = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const expense = await getExpenseById(id);
+        return res.status(200).json({ success: true, data: expense });
+    } catch (err) {
+        return res.status(404).json({ success: false, message: err.message });
+    }
+};
+
+const updateExpenseController = async (req, res) => {
+    const { id } = req.params;
+    const { expense_name, amount, currency, members, paidBy, expense_date } = req.body;
+
+    try {
+        // Basic validation if provided
+        if (amount && Number(amount) <= 0) {
+            return res.status(400).json({ success: false, message: "Amount must be greater than zero" });
+        }
+        if (members && (!Array.isArray(members) || members.length === 0)) {
+            return res.status(400).json({ success: false, message: "Members must be a non-empty array" });
+        }
+
+        await updateExpense(id, { expense_name, amount, currency, members, paidBy, expense_date });
+
+        const updatedExpense = await getExpenseById(id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Expense updated successfully",
+            data: updatedExpense
+        });
+    } catch (err) {
+        return res.status(400).json({ success: false, message: err.message });
+    }
+};
+
+
+
+export { expensesController, getExpenseController, updateExpenseController };
