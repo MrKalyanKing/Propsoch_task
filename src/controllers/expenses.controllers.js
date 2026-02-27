@@ -1,4 +1,4 @@
-import { createExpense, getExpenseById, updateExpense } from "../services/expenses.service.js";
+import { createExpense, deleteExpense, getExpenseById, updateExpense } from "../services/expenses.service.js";
 
 
 const expensesController = async (req, res) => {
@@ -103,4 +103,16 @@ const updateExpenseController = async (req, res) => {
 
 
 
-export { expensesController, getExpenseController, updateExpenseController };
+const deleteExpenseController = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await deleteExpense(id);
+        return res.status(200).json({
+            message: "Expense deleted successfully"
+        });
+    } catch (err) {
+        return res.status(404).json({ success: false, message: err.message });
+    }
+};
+
+export { expensesController, getExpenseController, updateExpenseController, deleteExpenseController };

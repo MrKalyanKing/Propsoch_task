@@ -172,4 +172,32 @@ const updateExpense = async (expenseId, data) => {
 
 
 
-export { createExpense, getExpenseById, updateExpense };
+const deleteExpense = async (expenseId) => {
+    let connection = null;
+    try {
+        connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        // Check if expense exists
+        const [existing] = await connection.query("select id from expenses where id = ?", [expenseId]);
+        if (existing.length === 0) {
+            throw new Error("Expense not found");
+        }
+
+        // Delete participants first
+        await connection.query("delete from expense_participants where expense_id = ?", [expenseId]);
+
+        // Delete the expense
+        await connection.query("delete from expenses where id = ?", [expenseId]);
+
+        await connection.commit();
+        return { success: true };
+    } catch (err) {
+        if (connection) await connection.rollback();
+        throw err;
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
+export { createExpense, getExpenseById, updateExpense, deleteExpense };

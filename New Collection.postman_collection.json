@@ -195,6 +195,14 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "DeleteExpense",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
     }
   ]
 }
