@@ -73,9 +73,9 @@ const createExpense = async (data) => {
         console.error("Error in createExpense service:", err.message);
         throw err;
     }
-    // finally {
-    //     if (connection) connection.release();
-    // }
+    finally {
+        if (connection) connection.release();
+    }
 };
 
 

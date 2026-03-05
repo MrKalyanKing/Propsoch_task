@@ -2,12 +2,12 @@ import bcrypt from "bcrypt"
 import validator from "validator"
 
 import { getUserProfile, updateUserProfile, userRegister } from "../services/users.service.js"
-import pool from "../db/db.js"
+
 const userRegisterController = async (req, res) => {
 
 
     const { name, email, password, default_currency } = req.body
-    console.log(email, password, default_currency)
+    
     try {
 
         if (!name || !email || !password) {

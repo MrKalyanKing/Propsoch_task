@@ -4,10 +4,10 @@ import errHandler from "../middleware/error.middleware.js";
 
 const routerExpense = Router();
 
-routerExpense.post("/expenses", expensesController, errHandler)
-routerExpense.get("/expenses/:id", getExpenseController, errHandler)
-routerExpense.delete("/expenses/delete/:id", deleteExpenseController, errHandler)
-routerExpense.put("/expenses/update/:id", updateExpenseController, errHandler)
+routerExpense.post("/expenses", expensesController)
+routerExpense.get("/expenses/:id", getExpenseController)
+routerExpense.delete("/expenses/delete/:id", deleteExpenseController)
+routerExpense.put("/expenses/update/:id", updateExpenseController)
 
 
 

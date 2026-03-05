@@ -47,7 +47,7 @@ const expensesController = async (req, res) => {
         return res.status(201).json({
             message: "Expense created successfully",
             expense: {
-                id: expense,
+                id: expense.expenseId,
                 expense_name,
                 amount: Number(amount),
                 currency,

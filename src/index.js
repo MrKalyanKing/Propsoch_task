@@ -1,8 +1,8 @@
 import express from "express"
 import router from "./routes/user.routes.js";
-import { expensesController } from "./controllers/expenses.controllers.js";
 import routerExpense from "./routes/expenses.routes.js";
 import balanceRouter from "./routes/balance.routes.js";
+import errHandler from "./middleware/error.middleware.js";
 
 
 const app = express();
@@ -11,8 +11,8 @@ const app = express();
 
 app.use(express.json())
 
-app.use("/api", router)
-app.use("/api", routerExpense)
-app.use("/api", balanceRouter)
+app.use("/api",errHandler, router)
+app.use("/api",errHandler, routerExpense)
+app.use("/api",errHandler, balanceRouter)
 
 export default app;

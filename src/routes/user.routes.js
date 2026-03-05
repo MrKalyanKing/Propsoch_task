@@ -4,8 +4,8 @@ import errHandler from "../middleware/error.middleware.js";
 
 const router = Router();
 
-router.post("/user/register", userRegisterController, errHandler)
-router.get("/user/profile/:userId", getUserProfileController, errHandler)
-router.put("/user/update/:userId", updateUserProfileController, errHandler)
+router.post("/user/register", userRegisterController)
+router.get("/user/profile/:userId", getUserProfileController)
+router.put("/user/update/:userId", updateUserProfileController)
 
 export default router
